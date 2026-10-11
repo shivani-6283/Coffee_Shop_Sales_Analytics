@@ -1,8 +1,9 @@
 -- ============================================================
--- SECTION 01: KPI CALCULATIONS
+-- 1: KPI CALCULATIONS
 -- Business Question: What are the total sales, orders, and
 -- quantity sold for each month?
 -- ============================================================
+
 SELECT
     MONTH(transaction_date) AS month,
     SUM(sales_amount) AS total_sales,
@@ -13,12 +14,12 @@ GROUP BY MONTH(transaction_date)
 ORDER BY 1;
 
 -- ============================================================
--- SECTION 02: MONTH-OVER-MONTH (MoM) ANALYSIS
+-- 2: MONTH-OVER-MONTH (MoM) ANALYSIS
 -- Business Question: How do monthly sales, orders, and quantity
 -- change compared with the previous month?
 -- ============================================================
 
--- 2.1 MONTHLY SALES: MoM DIFFERENCE AND GROWTH
+-- 2.1 Monthly Sales Difference and Growth
 WITH Monthly_Sales AS
 (
     SELECT
@@ -27,7 +28,7 @@ WITH Monthly_Sales AS
     FROM sale.fact_transaction
     GROUP BY MONTH(transaction_date)
 )
-
+    
 SELECT
     month,
     current_sale,
@@ -44,7 +45,7 @@ SELECT
 FROM Monthly_Sales
 ORDER BY month;
 
--- 2.2 MONTHLY ORDERS: MoM DIFFERENCE AND GROWTH
+-- 2.2 Monthly Orders Difference and Growth
 WITH Monthly_Orders AS
 (
     SELECT
@@ -71,7 +72,7 @@ SELECT
 FROM Monthly_Orders
 ORDER BY month;
 
--- 2.3 MONTHLY QUANTITY: MoM DIFFERENCE AND GROWTH
+-- 2.3 Monthly Quantity Sold Difference and Growth
 WITH Monthly_Quantity AS
 (
     SELECT
@@ -98,13 +99,12 @@ SELECT
 FROM Monthly_Quantity
 ORDER BY month;
 
--- ============================================================
--- SECTION 03: DAILY KPI ANALYSIS
+-- =============================================================
+-- 3: DAILY KPI (DAILY SALES, ORDERS, AND QUANTITY) ANALYSIS
 -- Business Question: How do sales, orders, and quantity vary
 -- across individual days of a selected month?
--- ============================================================
+-- =============================================================
 
--- 3.1 DAILY SALES, ORDERS, AND QUANTITY
 -- Use case: Calendar heat map
 -- Selected month: June
 
@@ -114,17 +114,18 @@ SELECT
     COUNT(DISTINCT transaction_id) AS total_orders,
     SUM(transaction_qty) AS total_qty
 FROM sale.fact_transaction
-WHERE MONTH(transaction_date) = 6  --(For June Month)
+WHERE MONTH(transaction_date) = 6 
 GROUP BY DAY(transaction_date)
 ORDER BY 1;
 
 -- ============================================================
--- SECTION 04: WEEKDAY VS. WEEKEND SALES
--- Business Question: How do sales compare between weekdays
--- and weekends in a selected month?
+-- 4: WEEKDAY VS. WEEKEND SALES
+-- Business Question: Compare total sales generated on weekdays
+-- versus weekends for a selected month.
+-- ============================================================
+
 -- Use case: Donut chart
 -- Selected month: March
--- ============================================================
 
 SELECT
     MONTH(transaction_date) AS Month,
@@ -135,7 +136,7 @@ SELECT
     END AS weeks,
     SUM(sales_amount) AS total_sale
 FROM sale.fact_transaction
-WHERE MONTH(transaction_date) = 3  ---(For March Month)
+WHERE MONTH(transaction_date) = 3
 GROUP BY
     MONTH(transaction_date),
     CASE
@@ -145,11 +146,13 @@ GROUP BY
 ORDER BY 1;
 
 -- ============================================================
--- SECTION 05: SALES BY STORE LOCATION
--- Business Question: Which store locations generate the most
--- sales, and how do their sales change month over month?
+-- 5: SALES PERFORMANCE BY STORE LOCATION
+-- Business Question: Calculate total monthly sales for each store
+-- location and compare current sales with the previous month for 
+-- the same store.
 -- ============================================================
---STORE-LEVEL MoM DIFFERENCE AND GROWTH
+
+--MoM DIFFERENCE AND GROWTH
 --Selected months: February and March
 
 WITH Monthly_Store_Sales AS
@@ -191,13 +194,28 @@ FROM Monthly_Store_Sales
 ORDER BY store_location, months;
 
 -- ============================================================
--- SECTION 06: DAILY SALES TREND
--- Business Question: What is the average daily sales value
--- for a selected month?
--- Selected month: February
+-- 6: DAILY SALES TREND
+-- Business Question: What is the average daily sales value for a selected month
+-- and then Classify daily sales as above average,below average, or equal to the
+-- average daily sales for the selected month.
 -- ============================================================
 
--- 6.1 AVERAGE DAILY SALES
+-- 6.1 DAILY SALES FOR A SELECTED MONTH
+-- Selected month: February
+
+    SELECT 
+    DAY(transaction_date) AS day_of_month,
+    round(sum(sales_amount),1) as total_sales
+    FROM sale.fact_transaction
+    WHERE MONTH(transaction_date) = 2 
+GROUP BY 
+    DAY(transaction_date)
+ORDER BY 
+    DAY(transaction_date);
+
+-- 6.2 AVERAGE OF DAILY SALES
+-- Selected month: February
+
 SELECT
     FORMAT(AVG(total_sales) / 1000.0, '0.0K') AS Daily_avg_sales
     FROM
@@ -205,24 +223,14 @@ SELECT
     SELECT
         SUM(sales_amount) AS total_sales
     FROM sale.fact_transaction
-    WHERE MONTH(transaction_date) = 2  -- (Filter For February)
+    WHERE MONTH(transaction_date) = 2 
     GROUP BY transaction_date
 ) AS subquery;
-
--- 6.2 DAILY SALES FOR A SELECTED MONTH
-    SELECT 
-    DAY(transaction_date) AS day_of_month,
-    round(sum(sales_amount),1) as total_sales
-    FROM sale.fact_transaction
-    WHERE MONTH(transaction_date) = 2  -- (Filter For February)
-GROUP BY 
-    DAY(transaction_date)
-ORDER BY 
-    DAY(transaction_date);
 
 -- 6.3 COMPARE DAILY SALES WITH AVERAGE SALES
 -- Business Question: Which days performed above or below
 -- the average daily sales for the selected month?
+
 SELECT
     day_of_month,
     total_sales,
@@ -243,11 +251,13 @@ FROM
 ORDER BY day_of_month;
 
 -- ============================================================
--- SECTION 07: SALES BY PRODUCT CATEGORY
+-- 7: SALES BY PRODUCT CATEGORY
 -- Business Question: Which product categories generate the
 -- highest sales in a selected month?
--- Selected month: May
 -- ============================================================
+
+-- Selected month: May
+
 SELECT
     MONTH(f.transaction_date) AS months,
     p.product_category,
@@ -264,11 +274,12 @@ ORDER BY
     SUM(f.sales_amount) DESC;
 
 -- ============================================================
--- SECTION 08: TOP 10 PRODUCTS BY SALES
+-- 8: TOP 10 PRODUCTS BY SALES
 -- Business Question: Which 10 product types generate the
 -- highest sales in a selected month?
--- Selected month: May
 -- ============================================================
+
+-- Selected month: May
 
 SELECT TOP 10
     MONTH(f.transaction_date) AS months,
@@ -286,19 +297,17 @@ ORDER BY
     SUM(f.sales_amount) DESC;
 
 -- ============================================================
--- SECTION 09: SALES BY DAY OF WEEK AND HOUR
+-- 9: SALES ANALYSIS BY DAY AND HOUR
 -- Business Question: How do sales vary by weekday and
 -- transaction hour?
--- Use case: Day-and-hour heat map
--- Selected month: May
 -- ============================================================
 
--- 9.1 SALES, ORDERS, AND QUANTITY FOR A SELECTED
--- WEEKDAY AND HOUR
--- Example: Tuesday at 8 AM
+-- Use case: Day-and-hour heat map
+-- Selected month: May
 
+-- 9.1 Sales, Orders, and Quantity for a Specific Day and Hour
+-- Example: Tuesday at 8 AM
 -- DATEPART(WEEKDAY): 1 = Sunday, 7 = Saturday
--- This mapping assumes SET DATEFIRST 7.
 
 SELECT
     SUM(sales_amount) AS total_sales,
@@ -310,11 +319,9 @@ WHERE
     AND DATEPART(HOUR, transaction_time) = 8  -- Hour 8
     AND MONTH(transaction_date) = 5;  -- May
 
--- 9.2 SALES BY DAY OF WEEK
--- Returns sales for each weekday in May.
+-- 9.2 SALES BY WEEKDAY
+-- Returns total sales for each weekday 
 
--- DATEPART(WEEKDAY): 1 = Sunday, 7 = Saturday
--- This mapping assumes SET DATEFIRST 7.
 SELECT
     MONTH(transaction_date) AS months,
     DATEPART(WEEKDAY, transaction_date) AS weeks,
@@ -328,7 +335,8 @@ ORDER BY
     1, 2;
 
 -- 9.3 SALES BY HOUR
--- Returns sales for each hour in May.
+-- Returns sales for each hour
+
 SELECT
     MONTH(transaction_date) AS months,
     DATEPART(HOUR, transaction_time) AS hours,
