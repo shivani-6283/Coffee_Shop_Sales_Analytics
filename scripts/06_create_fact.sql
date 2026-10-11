@@ -37,7 +37,7 @@ INSERT INTO sale.fact_transaction (
 )
 SELECT
     transaction_id,
-    CAST(transaction_date AS DATE),
+    transaction_date,
     transaction_time,
     transaction_qty,
     store_id,
