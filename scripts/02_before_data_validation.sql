@@ -42,7 +42,7 @@ WHERE TRIM(store_location) = ''
    OR TRIM(product_type) = ''
    OR TRIM(product_detail) = '';
 
-----d.)Finding leading and trailing spaces in the string value column----
+----d.) Finding leading and trailing spaces in the string value column----
 SELECT *
 FROM sale.raw_sales
 WHERE LEN(store_location) != LEN(TRIM(store_location))
@@ -52,7 +52,6 @@ WHERE LEN(store_location) != LEN(TRIM(store_location))
 
 
 -----e.) Negative Qty and price value detection-----
-
 SELECT
 *
 FROM sale.raw_sales
@@ -60,7 +59,6 @@ WHERE transaction_qty<0
 OR unit_price<0
 
 -----f.) Check for duplicates rows-----
-
 WITH Duplicate_check AS (
   SELECT
         *,
