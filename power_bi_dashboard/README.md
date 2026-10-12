@@ -24,7 +24,7 @@ An additional **Key Insights side panel** presents important business findings i
 
 **Power BI Dashboard Screenshot**
 
-<!-- Add your screenshots here -->
+![Coffee Shop Sales Dashboard ](power_bi_dashboard/screenshots/Coffee Shop Sales Dashboard.png)
 
 ## Dashboard Visualizations
 
