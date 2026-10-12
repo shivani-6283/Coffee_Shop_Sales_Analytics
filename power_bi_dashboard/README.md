@@ -22,9 +22,13 @@ An additional **Key Insights side panel** presents important business findings i
 
 ## Dashboard Preview
 
-**Power BI Dashboard Screenshot**
+### Coffee Shop Sales Dashboard
 
-![Coffee Shop Sales Dashboard ](power_bi_dashboard/screenshots/Coffee Shop Sales Dashboard.png) 
+![Coffee Shop Sales Dashboard](screenshots/Coffee%20Shop%20Sales%20Dashboard.png)
+
+### Key Insights Panel
+
+![Insight Panel](screenshots/Insight%20Panel.png)
 
 ## Dashboard Visualizations
 
