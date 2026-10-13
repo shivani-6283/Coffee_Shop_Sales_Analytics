@@ -87,7 +87,10 @@ The following diagram illustrates the star schema used for data modeling in this
 
 ![Star Schema](docs/Data%20Model-Star%20Schema.png)
 
-### Power BI Dashboard
+
+---
+
+## 📸 DASHBOARD PREVIEW
 
 ### Coffee Shop Sales Dashboard
 
@@ -96,11 +99,6 @@ The following diagram illustrates the star schema used for data modeling in this
 
 [View Dashboard Screenshots](./power_bi_dashboard/screenshots/)
 
----
-
-## 📸 DASHBOARD PREVIEW
-
--screenshots
 
 ---
 
