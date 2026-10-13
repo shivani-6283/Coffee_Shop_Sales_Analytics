@@ -87,6 +87,10 @@ The following diagram illustrates the star schema used for data modeling in this
 
 ![Star Schema](docs/Data%20Model-Star%20Schema.png)
 
+### Power BI Dashboard
+
+[View Dashboard Screenshots](./power_bi_dashboard/screenshots/)
+
 ---
 
 ## 📸 DASHBOARD PREVIEW
