@@ -30,6 +30,10 @@ An additional **Key Insights side panel** presents important business findings i
 
 ![Insight Panel](screenshots/Insight%20Panel.png)
 
+### Tooltip
+
+![Tooltip](screenshots/Tooltip.png)
+
 ## Dashboard Visualizations
 
 | Visualization                    | Business Purpose                                                                                                                    |
