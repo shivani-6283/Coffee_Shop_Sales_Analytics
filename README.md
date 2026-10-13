@@ -91,7 +91,7 @@ The following diagram illustrates the star schema used for data modeling in this
 
 ### Coffee Shop Sales Dashboard
 
-![Coffee Shop Sales Dashboard](screenshots/Coffee%20Shop%20Sales%20Dashboard.png)
+![Coffee Shop Sales Dashboard](./screenshots/Coffee%20Shop%20Sales%20Dashboard.png)
 
 
 [View Dashboard Screenshots](./power_bi_dashboard/screenshots/)
