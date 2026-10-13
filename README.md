@@ -115,3 +115,11 @@ The following diagram illustrates the star schema used for data modeling in this
 * Dashboard Development: Building interactive dashboards with filters and slicers.
 * Business Analysis: Identifying sales trends, top-performing products, and store
   performance.
+
+ ---
+
+## 📝 Final Note
+
+This project demonstrates the practical use of SQL Server and Power BI to analyze coffee shop sales data and develop an interactive business intelligence dashboard. It showcases how raw data can be transformed into meaningful insights to understand sales performance, identify trends, and support data-driven decision-making.
+
+
