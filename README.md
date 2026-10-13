@@ -95,6 +95,7 @@ The following diagram illustrates the star schema used for data modeling in this
 
 
 [View Dashboard Screenshots](./power_bi_dashboard/screenshots/)
+
 ---
 
 ## 📸 DASHBOARD PREVIEW
